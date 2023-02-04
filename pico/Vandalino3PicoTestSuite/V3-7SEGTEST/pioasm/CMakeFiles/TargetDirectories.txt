@@ -1,3 +1,0 @@
-/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pioasm/CMakeFiles/pioasm.dir
-/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pioasm/CMakeFiles/edit_cache.dir
-/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pioasm/CMakeFiles/rebuild_cache.dir
