@@ -9,7 +9,7 @@ pico_sdk_init()
 #add_subdirectory(FreeRTOS)
 #add_subdirectory(ProjectFiles)
 
-set(PICO_SDK_FREERTOS_SOURCE /home/tarnished-dan22/pico/FreeRTOS-Kernel)
+set(PICO_SDK_FREERTOS_SOURCE /home/ros2box/pico/FreeRTOS-Kernel)
 
 add_library(freertos
     ${PICO_SDK_FREERTOS_SOURCE}/event_groups.c

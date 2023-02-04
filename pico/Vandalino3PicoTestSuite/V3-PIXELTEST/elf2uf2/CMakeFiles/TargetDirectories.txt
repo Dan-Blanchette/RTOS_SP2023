@@ -1,0 +1,5 @@
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/elf2uf2/CMakeFiles/elf2uf2.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/elf2uf2/CMakeFiles/edit_cache.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/elf2uf2/CMakeFiles/rebuild_cache.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/elf2uf2/boot_uf2_headers/CMakeFiles/edit_cache.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/elf2uf2/boot_uf2_headers/CMakeFiles/rebuild_cache.dir

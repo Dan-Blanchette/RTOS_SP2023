@@ -1,0 +1,51 @@
+CMakeFiles/WS2812_Example.dir/WS2812.cpp.obj: \
+ /home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/WS2812.cpp \
+ /home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/WS2812.hpp \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico/types.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico/assert.h \
+ /usr/lib/gcc/arm-none-eabi/10.3.1/include/stdbool.h \
+ /usr/include/newlib/c++/10.3.1/cassert \
+ /usr/include/newlib/c++/10.3.1/arm-none-eabi/thumb/v6-m/nofp/bits/c++config.h \
+ /usr/include/newlib/c++/10.3.1/arm-none-eabi/thumb/v6-m/nofp/bits/os_defines.h \
+ /usr/include/newlib/c++/10.3.1/arm-none-eabi/thumb/v6-m/nofp/bits/cpu_defines.h \
+ /usr/include/newlib/c++/10.3.1/pstl/pstl_config.h \
+ /usr/include/newlib/assert.h /usr/include/newlib/_ansi.h \
+ /usr/include/newlib/newlib.h /usr/include/newlib/_newlib_version.h \
+ /usr/include/newlib/sys/config.h /usr/include/newlib/machine/ieeefp.h \
+ /usr/include/newlib/sys/features.h \
+ /usr/lib/gcc/arm-none-eabi/10.3.1/include/stdint.h \
+ /usr/lib/gcc/arm-none-eabi/10.3.1/include/stddef.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico/types.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/generated/pico_base/pico/version.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico/config.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/generated/pico_base/pico/config_autogen.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/boards/include/boards/adafruit_feather_rp2040.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/cmsis/include/cmsis/rename_exceptions.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/pico_platform/include/pico/platform.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/platform_defs.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/addressmap.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/sio.h \
+ /usr/include/newlib/sys/cdefs.h \
+ /usr/include/newlib/machine/_default_types.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/common/pico_base/include/pico/error.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_base/include/hardware/address_mapped.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/pio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_gpio/include/hardware/gpio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/sio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/interp.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/padsbank0.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/pads_bank0.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/iobank0.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/io_bank0.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_irq/include/hardware/irq.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/intctrl.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/m0plus.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/dreq.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_pio/include/hardware/pio_instructions.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/WS2812.pio.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2_common/hardware_clocks/include/hardware/clocks.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_structs/include/hardware/structs/clocks.h \
+ /home/tarnished-dan22/RTOS_SP2023/pico/pico-sdk/src/rp2040/hardware_regs/include/hardware/regs/clocks.h

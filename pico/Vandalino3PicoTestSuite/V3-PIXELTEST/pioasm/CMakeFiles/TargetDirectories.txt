@@ -1,0 +1,3 @@
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/pioasm/CMakeFiles/pioasm.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/pioasm/CMakeFiles/edit_cache.dir
+/home/tarnished-dan22/RTOS_SP2023/pico/Vandalino3PicoTestSuite/V3-PIXELTEST/pioasm/CMakeFiles/rebuild_cache.dir
