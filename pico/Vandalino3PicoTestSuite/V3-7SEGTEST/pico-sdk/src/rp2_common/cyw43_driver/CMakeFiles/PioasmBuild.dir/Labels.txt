@@ -1,0 +1,13 @@
+# Target labels
+ PioasmBuild
+# Source files and their labels
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/CMakeFiles/PioasmBuild
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/CMakeFiles/PioasmBuild.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/CMakeFiles/PioasmBuild-complete.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-build.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-configure.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-download.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-install.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-mkdir.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-patch.rule
+/home/tarnished-dan22/pico/Vandalino3PicoTestSuite/V3-7SEGTEST/pico-sdk/src/rp2_common/cyw43_driver/pioasm/src/PioasmBuild-stamp/PioasmBuild-update.rule
