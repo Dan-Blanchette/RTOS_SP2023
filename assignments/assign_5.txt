@@ -1,0 +1,21 @@
+RTOS: Assignment 5
+Dan Blanchette
+February 11 2023
+1 Question 9: Chapter 6
+A non-preemptive RTOS will let a low-priority task continue to run,
+even when a higher-priority task becomes ready. This makes its response
+characteristics much more like those of one of the architectures
+we discussed in Chapter 5 than like those of a preemptive RTOS.
+Which of those architectures is most similar in its response characteristics
+to a non-preemptive RTOS?
+
+Answer:
+In my research, I found that both round robin architectures are classified as preemptive.
+The architecture that best represents the described scenario from chapter
+5 is Function-Queue-Scheduling(FQS). The reason why FQS best matches
+this description is based on its worst-case functionality. First, it is stated that
+a high-priority task in FQS can remain high enough that the low-priority tasks
+never get to run. Second, if a low-priority task/function is exceedingly long
+in its instructions, the task will stop high-priority tasks from executing until
+it has finished. Due to the nature of the second flaw, FQS can be justified as
+non-preemptive if it is used and not implemented correctly.
