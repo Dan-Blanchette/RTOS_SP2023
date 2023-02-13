@@ -2,8 +2,8 @@
  * killer_iot_device for Raspberry Pi Pico
  *
  * @version     1.0.0
- * @author      <YOU>
- * @copyright   2021
+ * @author      Dan Blanchette
+ * @copyright   2023
  * @licence     MIT
  *
  */
@@ -29,5 +29,11 @@
 #include "hardware/spi.h"
 #include "hardware/adc.h"
 #include "hardware/uart.h"
+
+/*
+   FreeRTOS HEADERS
+*/
+#include <FreeRTOS.h>
+#include <task.h>
 
 #endif // _KILLER_IOT_DEVICE_MAIN_HEADER_

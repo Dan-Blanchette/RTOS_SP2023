@@ -10,33 +10,12 @@
  * 
  */
 #include "main.h"
-#include "semphr.h"
-#include <queue.h>
 
-/*PICO PIN SETUP*/
 // D13 Pin Assignment pico
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 
-/*SEMAPHORES*/
-// Semaphore intilizaition
-SemaphoreHandle_t xSem;
 
-/***********************
- * 						  *
- * 	   QUEUES 		  *
- * 						  *
- ***********************/
-// digit queues for the 7-seg display
-static QueueHandle_t xQueueDisp = NULL;
-// pico D13 Blink
-static QueueHandle_t xQueuePico = NULL;
 
-/*SEVEN SEGMENT PIN ASSIGNMENT*/
-/********************************
- * 						  			  *
- * SEVEN SEGMENT PIN ASSIGNMENT *
- * 						  			  *
- ********************************/
 // GPIO pin setup
 #define SevenSegCC1 11
 #define SevenSegCC2 10
@@ -51,172 +30,103 @@ static QueueHandle_t xQueuePico = NULL;
 #define SevenSegDP 24
 
 
+// Globals
+SemaphoreHandle_t xSemaphore;
 
-/***********************
- * 						  *
- * FUNCTION PROTOTYPES *
- * 						  *
- ***********************/
+
+/*FUNCTION PROTOTYPES*/
 // setup 7-seg I/O
 void setup_7seg();
-// function to draw the numbers on the 7-seg display
+
 void draw_numbers(const int );
 
 
-/***********************
- * 						  *
- *       TASKS         *
- * 						  *
- ***********************/
-// Starts at draws the 0-9 count, 9-0 count on the right display
-// PRIORITY: 5
+// create a binary semaphore before starting tasks
+
+/*TASKS*/
+// Counts up to 9 for now
 void task_right_disp()
 {
-	
 	while (1)
 	{
-		// Take the semaphore
-		xSemaphoreTake(xSem, portMAX_DELAY);
-		//printf("In right display\n");
+		setup_7seg();
+
 		gpio_put(SevenSegCC1, 1);
 		gpio_put(SevenSegCC2, 0);
-		int rec_val = 0;
-		xQueuePeek(xQueueDisp, &rec_val, portMAX_DELAY);
-		int right_num = (rec_val % 10);
-		// draw the numbers to the display
-		draw_numbers(right_num);
 
-		vTaskDelay(10 / portTICK_PERIOD_MS);
-		xSemaphoreGive(xSem);
-		vTaskDelay(10 / portTICK_PERIOD_MS);
-
+		draw_numbers(0);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(1);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(2);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(3);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(4);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(5);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(6);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(7);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(8);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+		draw_numbers(9);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
 	}
 }
 
-// counts 0-4 then 4-0
-// PRIORITY: 5
+// tens place on the 7-seg
 void task_left_disp()
 {
 	while (1)
 	{
-		xSemaphoreTake(xSem, portMAX_DELAY);
-		//printf("In left display\n");
-		gpio_put(SevenSegCC1, 0);
-		gpio_put(SevenSegCC2, 1);
+		setup_7seg();
 
-		int rec_val = 0;
-
-		// extract the digit in the buffer
-		xQueuePeek(xQueueDisp, &rec_val, portMAX_DELAY);
-		// use the remainder of the division for the left side's count
-		int left_num = (rec_val / 10);
-		// draw the number to display
-		draw_numbers(left_num);
-
-		vTaskDelay(10 / portTICK_PERIOD_MS);
-		xSemaphoreGive(xSem);
-		vTaskDelay(10 / portTICK_PERIOD_MS);
 	}
 }
-// increment the count and pass the values to a queue
-// PRIORITY: 4
+
 void task_count()
 {
-	int val_to_send;
-	int bin_val_to_send = 1;
-	// decrement counter
-	for (int i = 42; i >= 0; i--)
+	while(1)
 	{
 
-		//printf("decrementing %d\n", i);
-
-		val_to_send = i;
-		bin_val_to_send;
-		// send the incremented value to the queue buffer
-		xQueueSend(xQueueDisp, &val_to_send, 0U);
-		xQueueSend(xQueuePico, &bin_val_to_send, 0U);
-		vTaskDelay(500 / portTICK_PERIOD_MS);
-
-		xQueueReceive(xQueueDisp, &val_to_send, 0U);
-		// the counter is 00
-		if (i == 0)
-		{
-			// increment the count
-			for (i; i <= 42; i++)
-			{
-				// printf("incrementing %d\n", i);
-				val_to_send = i;
-				bin_val_to_send;
-				// send the incremented value to the queue buffer
-				xQueueSend(xQueueDisp, &val_to_send, 0U);
-				xQueueSend(xQueuePico, &bin_val_to_send, 0U);
-				vTaskDelay(500 / portTICK_PERIOD_MS);
-	
-				// clear the queue when done
-				xQueueReceive(xQueueDisp, &val_to_send, 0U);
-			}
-		}
 	}
-	vTaskDelay(10 / portTICK_PERIOD_MS);
 }
 
-// blink pico
+// blink pic0
 void task_pico_blink()
 {
-	while (1)
+	while (true)
 	{
-		int val = 0;
+		gpio_init(LED_PIN);
+		gpio_set_dir(LED_PIN, GPIO_OUT);
+		// Flash pico LED at top of loop
 
-		xQueueReceive(xQueuePico, &val, portMAX_DELAY);
-		// 	printf("what is %d\n", val);
-		int que_val = val;
-		// printf("the value %d\n", que_val);
-
-		if (que_val == 1)
-		{
-			gpio_put(LED_PIN, 1);
-			vTaskDelay(100 / portTICK_PERIOD_MS);
-			gpio_put(LED_PIN, 0);
-		}
-		else
-		{
-			gpio_put(LED_PIN, 0);
-		}
+		// pico led on
+		gpio_put(LED_PIN, 1);
+		vTaskDelay(500 / portTICK_PERIOD_MS);
+		// pico led off
+		gpio_put(LED_PIN, 0);
+		vTaskDelay(5000 / portTICK_PERIOD_MS);
 	}
 }
 
 int main()
 {
-	// setup 7-seg GPIO OUT
-	setup_7seg();
-
-  // Init Pico
-  	gpio_init(LED_PIN);
-	gpio_set_dir(LED_PIN, GPIO_OUT);
   // Use for debugging
   stdio_init_all();
- 
- // creates Queue NOTE: like malloc specify data type
- xQueueDisp = xQueueCreate(1, sizeof(int));
- // create Pico Queue (has two values 0 or 1)
- xQueuePico = xQueueCreate(1, sizeof(int));
- // NOTE:create binary semaphore before tasks but after init!
- xSem = xSemaphoreCreateBinary();
- // take flag from semaphore
- xSemaphoreGive(xSem);
-
-  // This first task function's format is meant as a reference guide for the parameters
+ // This first task function's format is meant as a reference
   xTaskCreate(
               task_right_disp, // fucntion to be called
-             "Task_Right_Disp", // Name of Task 
+             "Task_right_disp", // Name of Task 
               256,  // Stack Size
               NULL, // Parameter to pass to a function
-              4,  // Task Priority (0 to configMAX_PRIORITIES - 1)
+              5,  // Task Priority (0 to configMAX_PRIORITIES - 1)
               NULL // Task handle (check on status, watch memory usage, or end the task)
               );
-  xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 4, NULL);
-  xTaskCreate(task_count, "Task_Count", 256, NULL, 3, NULL);
-  xTaskCreate(task_pico_blink, "Task_Pico_Blink", 256, NULL, 2, NULL);
+  // xTaskCreate(task_tens_place, "Task_2", 256, NULL, 4, NULL);
   // tell the scheduler to start running
   vTaskStartScheduler();
 
