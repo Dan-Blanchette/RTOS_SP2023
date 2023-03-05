@@ -10,12 +10,12 @@
  * 
  */
 #include "main.h"
-#include "semphr.h"
-#include <queue.h>
+
 
 /*PICO PIN SETUP*/
 // D13 Pin Assignment pico
 const uint LED_PIN = PICO_DEFAULT_LED_PIN;
+
 
 /*SEMAPHORES*/
 // Semaphore intilizaition
@@ -30,37 +30,6 @@ SemaphoreHandle_t xSem;
 static QueueHandle_t xQueueDisp = NULL;
 // pico D13 Blink
 static QueueHandle_t xQueuePico = NULL;
-
-/*SEVEN SEGMENT PIN ASSIGNMENT*/
-/********************************
- * 						  			  *
- * SEVEN SEGMENT PIN ASSIGNMENT *
- * 						  			  *
- ********************************/
-// GPIO pin setup
-#define SevenSegCC1 11
-#define SevenSegCC2 10
-
-#define SevenSegA 26
-#define SevenSegB 27
-#define SevenSegC 29
-#define SevenSegD 18
-#define SevenSegE 25
-#define SevenSegF 7
-#define SevenSegG 28
-#define SevenSegDP 24
-
-
-
-/***********************
- * 						  *
- * FUNCTION PROTOTYPES *
- * 						  *
- ***********************/
-// setup 7-seg I/O
-void setup_7seg();
-// function to draw the numbers on the 7-seg display
-void draw_numbers(const int );
 
 
 /***********************
@@ -83,9 +52,14 @@ void task_right_disp()
 		int rec_val = 0;
 		xQueuePeek(xQueueDisp, &rec_val, portMAX_DELAY);
 		int right_num = (rec_val % 10);
-		// draw the numbers to the display
-		draw_numbers(right_num);
+		
+		if (right_num < 10)
+		{	
+			// draw the numbers to the display
+			draw_numbers(right_num);
+		}
 
+		
 		vTaskDelay(10 / portTICK_PERIOD_MS);
 		xSemaphoreGive(xSem);
 		vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -108,9 +82,10 @@ void task_left_disp()
 
 		// extract the digit in the buffer
 		xQueuePeek(xQueueDisp, &rec_val, portMAX_DELAY);
-		// use the remainder of the division for the left side's count
+		// divide the values from the queue by 10
 		int left_num = (rec_val / 10);
 		// draw the number to display
+
 		draw_numbers(left_num);
 
 		vTaskDelay(10 / portTICK_PERIOD_MS);
@@ -160,6 +135,21 @@ void task_count()
 	vTaskDelay(10 / portTICK_PERIOD_MS);
 }
 
+
+void task_buttons()
+{
+	while(1)
+	{
+		int button1, button2, button3;
+		button1 = gpio_get(BUTTON1);
+		button2 = gpio_get(BUTTON2);
+		button3 = gpio_get(BUTTON3);
+
+		printf("button1/2/3 %d%d%d\n", button1, button2, button3);
+		vTaskDelay(100 / portTICK_PERIOD_MS);
+	}
+}
+
 // blink pico
 void task_pico_blink()
 {
@@ -190,6 +180,9 @@ int main()
 	// setup 7-seg GPIO OUT
 	setup_7seg();
 
+	// setup the buttons
+	setup_buttons();
+
   // Init Pico
   	gpio_init(LED_PIN);
 	gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -205,7 +198,10 @@ int main()
  // take flag from semaphore
  xSemaphoreGive(xSem);
 
-  // This first task function's format is meant as a reference guide for the parameters
+  
+	// This first task function's format is meant as a reference guide for the parameters
+
+  xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 5, NULL);
   xTaskCreate(
               task_right_disp, // fucntion to be called
              "Task_Right_Disp", // Name of Task 
@@ -252,6 +248,20 @@ void setup_7seg()
 		gpio_set_dir(SevenSegCC1, GPIO_OUT);
 		gpio_set_dir(SevenSegCC2, GPIO_OUT);
 }
+
+void setup_buttons()
+{
+	 // initialize digital pin LED_BUILTIN as an output.
+    gpio_init(BUTTON1);
+    gpio_init(BUTTON2);
+    gpio_init(BUTTON3);
+
+	 gpio_set_dir(BUTTON1, GPIO_IN);
+    gpio_set_dir(BUTTON2, GPIO_IN);
+    gpio_set_dir(BUTTON3, GPIO_IN);
+
+}
+
 
 void draw_numbers(const int segNum)
 {
@@ -406,3 +416,89 @@ void draw_numbers(const int segNum)
 			printf("Please enter a value between 0-9");
   }
 }
+
+void draw_hex_val(const int rem)
+{
+	switch (rem)
+	{
+		// draw  'a'
+		case 10:
+		gpio_put(SevenSegA, 1);
+		gpio_put(SevenSegB, 1);
+		gpio_put(SevenSegC, 1);
+		gpio_put(SevenSegD, 1);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 0);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		// draw b
+		case 11:
+		gpio_put(SevenSegA, 0);
+		gpio_put(SevenSegB, 0);
+		gpio_put(SevenSegC, 1);
+		gpio_put(SevenSegD, 1);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 1);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		// draw c
+		case 12:
+		gpio_put(SevenSegA, 0);
+		gpio_put(SevenSegB, 0);
+		gpio_put(SevenSegC, 0);
+		gpio_put(SevenSegD, 1);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 0);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		// draw d
+		case 13:
+		gpio_put(SevenSegA, 0);
+		gpio_put(SevenSegB, 1);
+		gpio_put(SevenSegC, 1);
+		gpio_put(SevenSegD, 1);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 0);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		// draw e
+		case 14:
+		gpio_put(SevenSegA, 1);
+		gpio_put(SevenSegB, 0);
+		gpio_put(SevenSegC, 0);
+		gpio_put(SevenSegD, 1);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 1);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		// draw f
+		case 15:
+		gpio_put(SevenSegA, 1);
+		gpio_put(SevenSegB, 0);
+		gpio_put(SevenSegC, 0);
+		gpio_put(SevenSegD, 0);
+		gpio_put(SevenSegE, 1);
+		gpio_put(SevenSegF, 1);
+		gpio_put(SevenSegG, 1);
+		break;
+
+		default:
+			draw_numbers(rem);
+		break;
+	}
+}
+
+// BUTTONS
+/*
+		int button1, button2, button3;
+		button1 = gpio_get(BUTTON1);
+		button2 = gpio_get(BUTTON2);
+		button3 = gpio_get(BUTTON3);
+
+		printf("button1/2/3 %d%d%d\n", button1, button2, button3);
+*/

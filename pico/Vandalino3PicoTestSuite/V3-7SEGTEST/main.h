@@ -35,5 +35,45 @@
 */
 #include <FreeRTOS.h>
 #include <task.h>
+#include "semphr.h"
+#include <queue.h>
+
+
+/********************************
+ * 						  			  *
+ * SEVEN SEGMENT PIN ASSIGNMENT *
+ * 						  			  *
+ ********************************/
+// GPIO pin setup GLOBAL VALUES
+#define SevenSegCC1 11
+#define SevenSegCC2 10
+
+#define SevenSegA 26
+#define SevenSegB 27
+#define SevenSegC 29
+#define SevenSegD 18
+#define SevenSegE 25
+#define SevenSegF 7
+#define SevenSegG 28
+#define SevenSegDP 24
+// Buttons PIN assignments
+#define BUTTON1 19
+#define BUTTON2 9
+#define BUTTON3 8
+
+
+
+/***********************
+ * 						  *
+ * FUNCTION PROTOTYPES *
+ * 						  *
+ ***********************/
+// setup 7-seg I/O
+void setup_7seg();
+//setup buttons
+void setup_buttons();
+// function to draw the numbers on the 7-seg display
+void draw_numbers(const int );
+void draw_hex_val(int rem);
 
 #endif // _KILLER_IOT_DEVICE_MAIN_HEADER_
