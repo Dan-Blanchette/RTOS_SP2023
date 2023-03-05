@@ -1,0 +1,71 @@
+Lecture 10.5 RTOS (FEB 23 2023)
+
+
+Intro to the ESP32
+
+Adafruit ESP32 Feather
+
+240MHz Dual Core
+520kb SRAM
+
+4MByte Flash included
+Tuned antenna
+
+ESP32 Major Features
+
+Processors:
+ -CPU: Xtensa dual-core(or single core)
+ - ultra low power
+ 
+ 
+ 
+ peripheral interfaces
+ 
+ UART for GPS
+ 
+ PWM pulse width modulation (makes LED's brighter or dimmer)
+ 
+ 
+ Networking and Structure of the Internet
+ 
+ TCP/IP protocal family
+ 
+ IP: Internet Protocal
+   -UDP: user datagram protocol (pushing bytes out one at a time like a hose not reliable)
+     -RTP, traceroute
+   -TCP: Transmission Control Protocol (can lose bandwith, not as fast)
+     - HTTP, FTP, ssh
+     
+What is an Internet?
+
+ - A set of interconnected networks
+ - The internet is the most famous example
+ 
+ 
+Networks can be completely different
+  - Ethernet, ATM, modem,...
+  - (TCP)/IP is what links them
+  - Routers (nodes) are devices on multiple networks that pass traffic between them
+  - individual networks pass traffic from one router or endpoint to another
+  - TCP/IP hides the details as much as possible.
+  
+
+
+ISO/OSI Network Model
+
+Seven network "layers" (exam topic)
+
+  - Layer 1: physical- cables *
+  - layer 2: Data Link- ethernet (MAC Address) *
+  - layer 3: Network - IP (Internet Layer/ IP addresses) *
+  - layer 4: Transport- TCP/UDP (Packet transfer) *
+  - layer 5: Session
+  - layer 6: Presentation
+  - layer 7: Application
+
+
+ARP (address resolution protocol)
+
+
+Packet Encapsulation
+
