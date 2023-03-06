@@ -21,9 +21,9 @@ const uint LED_PIN = PICO_DEFAULT_LED_PIN;
 SemaphoreHandle_t xSem;
 
 /***********************
- * 						         *
- * 	   QUEUES 		     *
- * 						         *
+ *                     *
+ *       QUEUES        *
+ *                     *
  ***********************/
 // digit queues for the 7-seg display
 static QueueHandle_t xQueueDisp = NULL;
@@ -31,9 +31,9 @@ static QueueHandle_t xQueueDisp = NULL;
 static QueueHandle_t xQueuePico = NULL;
 
 /***********************
- * 						         *
+ *                     *
  *       TASKS         *
- * 						         *
+ *                     *
  ***********************/
 
 // PRIORITY 5
@@ -202,9 +202,9 @@ void task_pico_blink()
 }
 
 /***********************
- * 						         *
- *    MAIN DRIVER 	   *
- * 						         *
+ *                     *
+ *   MAIN DRIVER       *
+ *                     *
  ***********************/
 int main()
 {
@@ -259,9 +259,9 @@ int main()
 }
 
 /***********************
- * 						         *
- * 	  FUNCTIONS 	     *
- * 						         *
+ *                     *
+ *     FUNCTIONS       *
+ *                     *
  ***********************/
 
 /**
