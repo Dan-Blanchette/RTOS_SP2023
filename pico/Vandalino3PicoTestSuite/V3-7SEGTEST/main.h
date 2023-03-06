@@ -11,6 +11,12 @@
 #define _KILLER_IOT_DEVICE_MAIN_HEADER_
 
 /*
+   HDC 1080 Drivers Header
+*/
+// #include "hdc1080Drivers.h"
+
+
+/*
  * C HEADERS
  */
 #include <stdbool.h>
@@ -56,10 +62,12 @@
 #define SevenSegF 7
 #define SevenSegG 28
 #define SevenSegDP 24
+
 // Buttons PIN assignments
 #define BUTTON1 19
 #define BUTTON2 9
 #define BUTTON3 8
+
 
 
 
@@ -68,10 +76,15 @@
  * FUNCTION PROTOTYPES *
  * 						  *
  ***********************/
-// setup 7-seg I/O
+// setup 7seg I/O
 void setup_7seg();
-//setup buttons
+
+// setup buttons
 void setup_buttons();
+
+// setup I2C HDC1080
+void setup_HDC1080();
+
 // function to draw the numbers on the 7-seg display
 void draw_numbers(const int );
 void draw_hex_val(int rem);
