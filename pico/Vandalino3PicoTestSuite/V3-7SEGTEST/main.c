@@ -176,7 +176,7 @@ void task_humiditySensor()
       printf("Percent Humidity: %f\n\n", perH);
       //vTaskDelay(100 / portTICK_PERIOD_MS);
       //xSemaphoreGive(xSem);
-      vTaskDelay(5000 / portTICK_PERIOD_MS);
+      vTaskDelay(1000 / portTICK_PERIOD_MS);
    }
 }
 
@@ -263,7 +263,7 @@ int main()
    /**************************** TASKS ************************************/
 
 
-   xTaskCreate(task_stepper_run, "Task_Stepper_Run", 256, NULL, 2, NULL);
+   xTaskCreate(task_stepper_run, "Task_Stepper_Run", 256, NULL, 4, NULL);
    // Right 7Seg Task(USING SEMAPHORE)
    xTaskCreate(
        task_right_disp,   // fucntion to be called
