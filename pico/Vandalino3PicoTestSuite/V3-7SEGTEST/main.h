@@ -68,14 +68,19 @@
 #define BUTTON2 9
 #define BUTTON3 8
 
+// Stepper GPIO
+#define IN1 13
+#define IN2 12
+#define IN3 9
+#define IN4 8
 
 
 
-/***********************
- * 						  *
- * FUNCTION PROTOTYPES *
- * 						  *
- ***********************/
+/********************************
+ * 						  			  *
+ *     FUNCTION PROTOTYPES      *
+ * 						  			  *
+ ********************************/
 // setup 7seg I/O
 void setup_7seg();
 
@@ -85,8 +90,12 @@ void setup_buttons();
 // setup I2C HDC1080
 void setup_HDC1080();
 
+// setup stepper
+void setup_stepper();
+
 // function to draw the numbers on the 7-seg display
 void draw_numbers(const int );
 void draw_hex_val(int rem);
+void stepper(int step);
 
 #endif // _KILLER_IOT_DEVICE_MAIN_HEADER_

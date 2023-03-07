@@ -155,6 +155,8 @@ void task_humiditySensor()
 {
    while (1)
    {
+      // xSemaphoreTake(xSem, portMAX_DELAY);
+      // protect the I2C BUS until output is done reading
       int deviceID, serialID1, serialID2, serialID3, config;
       float tempF, tempC, perH;
       deviceID = readDeviceID();
@@ -165,41 +167,58 @@ void task_humiditySensor()
       tempC = tempCels();
       tempF = tempFahr();
       perH = calc_humidity(HIGH);
+
       // printf("HDC1080_device: ID=0x%X\n", deviceID);
       // printf("Unique_serial:  ID_1=0x%X, ID_2=0x%X, ID_3=0x%X\n", serialID1, serialID2, serialID3);
       // printf("Config Register: 0x%X\n\n", config);
-      printf("Temp Farhenheit: %f\n", tempF);
+      printf("Temp Fahrenheit: %f\n", tempF);
       printf("Temp Celsius: %f\n\n", tempC);
       printf("Percent Humidity: %f\n\n", perH);
-      vTaskDelay(2000 / portTICK_PERIOD_MS);
-      // RTOS Scheduler() Here
+      //vTaskDelay(100 / portTICK_PERIOD_MS);
+      //xSemaphoreGive(xSem);
+      vTaskDelay(5000 / portTICK_PERIOD_MS);
    }
 }
 
-// blink pico
-void task_pico_blink()
+// stepper motor
+void task_stepper_run()
 {
+   int steps = 1;
    while (1)
    {
-      int val = 0;
-
-      xQueueReceive(xQueuePico, &val, portMAX_DELAY);
-      // 	printf("what is %d\n", val);
-      int que_val = val;
-      // printf("the value %d\n", que_val);
-
-      if (que_val == 1)
+      if (steps < 9)
       {
-         gpio_put(LED_PIN, 1);
-         vTaskDelay(100 / portTICK_PERIOD_MS);
-         gpio_put(LED_PIN, 0);
-      }
-      else
-      {
-         gpio_put(LED_PIN, 0);
+         stepper(steps);
+         steps = ((steps + 1) % 9);
+         // printf("steps: %d\n", steps);
+         vTaskDelay(10 / portTICK_PERIOD_MS);
       }
    }
 }
+// blink pico
+// void task_pico_blink()
+// {
+//    while (1)
+//    {
+//       int val = 0;
+
+//       xQueueReceive(xQueuePico, &val, portMAX_DELAY);
+//       // 	printf("what is %d\n", val);
+//       int que_val = val;
+//       // printf("the value %d\n", que_val);
+
+//       if (que_val == 1)
+//       {
+//          gpio_put(LED_PIN, 1);
+//          vTaskDelay(100 / portTICK_PERIOD_MS);
+//          gpio_put(LED_PIN, 0);
+//       }
+//       else
+//       {
+//          gpio_put(LED_PIN, 0);
+//       }
+//    }
+// }
 
 /***********************
  *                     *
@@ -212,11 +231,17 @@ int main()
    setup_7seg();
 
    // setup the buttons
-   setup_buttons();
+   //setup_buttons();
 
    // Init Pico
-   gpio_init(LED_PIN);
-   gpio_set_dir(LED_PIN, GPIO_OUT);
+   //gpio_init(LED_PIN);
+   //gpio_set_dir(LED_PIN, GPIO_OUT);
+
+   // Init Stepper
+   setup_stepper();
+
+   
+
 
    // Use for debugging
    stdio_init_all(); // Initialize STD I/O for printing over serial
@@ -237,19 +262,27 @@ int main()
 
    /**************************** TASKS ************************************/
 
-   xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 5, NULL);
+
+   xTaskCreate(task_stepper_run, "Task_Stepper_Run", 256, NULL, 2, NULL);
+   // Right 7Seg Task(USING SEMAPHORE)
    xTaskCreate(
        task_right_disp,   // fucntion to be called
        "Task_Right_Disp", // Name of Task
        256,               // Stack Size
        NULL,              // Parameter to pass to a function
-       4,                 // Task Priority (0 to configMAX_PRIORITIES - 1)
+       6,                 // Task Priority (0 to configMAX_PRIORITIES - 1)
        NULL               // Task handle (check on status, watch memory usage, or end the task)
    );
-   xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 4, NULL);
-   xTaskCreate(task_count, "Task_Count", 256, NULL, 3, NULL);
-   xTaskCreate(task_pico_blink, "Task_Pico_Blink", 256, NULL, 2, NULL);
-   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 1, NULL);
+   // // Left 7Seg Task (USING SEMAPHORE)
+   xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 5, NULL);
+   // // humidity sensor task
+   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 3, NULL);
+   // // Buttons Task
+   // xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 4, NULL);
+   // // Counter for 7SEG Display
+   xTaskCreate(task_count, "Task_Count", 256, NULL, 4, NULL);
+   // xTaskCreate(task_pico_blink, "Task_Pico_Blink", 256, NULL, 2, NULL);
+   
    // tell the scheduler to start running
    vTaskStartScheduler();
 
@@ -264,6 +297,11 @@ int main()
  *                     *
  ***********************/
 
+
+
+
+
+/*----------------------SETUP FUNCTIONS---------------------------------*/
 /**
  * @brief Set the up 7seg display
  *
@@ -296,6 +334,22 @@ void setup_7seg()
    gpio_set_dir(SevenSegCC1, GPIO_OUT);
    gpio_set_dir(SevenSegCC2, GPIO_OUT);
 }
+
+
+void setup_stepper()
+{
+   gpio_init(IN1);
+   gpio_init(IN2);
+   gpio_init(IN3);
+   gpio_init(IN4);
+
+   gpio_set_dir(IN1, GPIO_OUT);
+   gpio_set_dir(IN2, GPIO_OUT);
+   gpio_set_dir(IN3, GPIO_OUT);
+   gpio_set_dir(IN4, GPIO_OUT);
+}
+
+
 
 /**
  * @brief Set the up V3 buttons
@@ -330,6 +384,10 @@ void setup_HDC1080()
    sleep_ms(1000);
 }
 
+
+
+
+/*---------------7SEG DRAW FUNCITONS------------------------------------*/
 /**
  * @brief send binary information to enable each segment
  * and draw the numbers
@@ -571,6 +629,82 @@ void draw_hex_val(const int rem)
    }
 }
 
+
+
+/*--------------------------------STEPPER MOTOR FUNCTIONS------------------------------------------------------------*/
+void stepper(int step)
+{
+   switch(step)
+   {
+      case 1:
+         gpio_put(IN1, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN4, 1);
+         break;
+
+      case 2:
+         gpio_put(IN1, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN3, 1);
+         gpio_put(IN4, 1);
+         break;
+
+      case 3:
+         gpio_put(IN1, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN3, 1);
+         gpio_put(IN4, 0);
+         break;
+
+      case 4:
+         gpio_put(IN1, 0);
+         gpio_put(IN2, 1);
+         gpio_put(IN3, 1);
+         gpio_put(IN4, 0);
+         break;
+
+      case 5:
+         gpio_put(IN1, 0);
+         gpio_put(IN2, 1);
+         gpio_put(IN3, 0);
+         gpio_put(IN4, 0);
+         break;
+
+      case 6:
+         gpio_put(IN1, 1);
+         gpio_put(IN2, 1);
+         gpio_put(IN3, 0);
+         gpio_put(IN4, 0);
+         break;
+
+      case 7:
+         gpio_put(IN1, 1);
+         gpio_put(IN2, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN4, 0);
+         break;
+
+      case 8:
+         gpio_put(IN1, 1);
+         gpio_put(IN2, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN4, 1);
+         break;
+
+      default:
+         break;
+   }
+
+}
+
+
+
+
+
+/*-------------------------------HDC1080 FUNCTION DEFINITIONS-------------------------------------------------------*/
+
+
 /**
  * @brief
  *
@@ -621,7 +755,6 @@ float temperature(enum Temp_Type degrees, enum Resolution_Type resolution)
    return (final_temp * 1.8) + 32; // degrees F conversion
 }
 
-/*HDC1080 FUNCTION DEFINITIONS*/
 
 /**
  * @brief
