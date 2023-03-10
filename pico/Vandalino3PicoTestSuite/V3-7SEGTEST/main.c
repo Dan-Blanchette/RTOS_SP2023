@@ -263,24 +263,24 @@ int main()
    /**************************** TASKS ************************************/
 
 
-   xTaskCreate(task_stepper_run, "Task_Stepper_Run", 256, NULL, 4, NULL);
+   xTaskCreate(task_stepper_run, "Task_Stepper_Run", 256, NULL, 2, NULL);
    // Right 7Seg Task(USING SEMAPHORE)
    xTaskCreate(
        task_right_disp,   // fucntion to be called
        "Task_Right_Disp", // Name of Task
        256,               // Stack Size
        NULL,              // Parameter to pass to a function
-       6,                 // Task Priority (0 to configMAX_PRIORITIES - 1)
+       4,                 // Task Priority (0 to configMAX_PRIORITIES - 1)
        NULL               // Task handle (check on status, watch memory usage, or end the task)
    );
    // // Left 7Seg Task (USING SEMAPHORE)
-   xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 5, NULL);
+   xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 3, NULL);
    // // humidity sensor task
-   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 3, NULL);
+   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 1, NULL);
    // // Buttons Task
    // xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 4, NULL);
    // // Counter for 7SEG Display
-   xTaskCreate(task_count, "Task_Count", 256, NULL, 4, NULL);
+   xTaskCreate(task_count, "Task_Count", 256, NULL, 2, NULL);
    // xTaskCreate(task_pico_blink, "Task_Pico_Blink", 256, NULL, 2, NULL);
    
    // tell the scheduler to start running
@@ -637,62 +637,66 @@ void stepper(int step)
    switch(step)
    {
       case 1:
-         gpio_put(IN1, 0);
-         gpio_put(IN2, 0);
-         gpio_put(IN3, 0);
          gpio_put(IN4, 1);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 0);
          break;
 
       case 2:
-         gpio_put(IN1, 0);
-         gpio_put(IN2, 0);
-         gpio_put(IN3, 1);
          gpio_put(IN4, 1);
+         gpio_put(IN3, 1);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 0);
          break;
 
       case 3:
-         gpio_put(IN1, 0);
-         gpio_put(IN2, 0);
-         gpio_put(IN3, 1);
          gpio_put(IN4, 0);
+         gpio_put(IN3, 1);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 0);
          break;
 
       case 4:
-         gpio_put(IN1, 0);
-         gpio_put(IN2, 1);
-         gpio_put(IN3, 1);
          gpio_put(IN4, 0);
+         gpio_put(IN3, 1);
+         gpio_put(IN2, 1);
+         gpio_put(IN1, 0);
          break;
 
       case 5:
-         gpio_put(IN1, 0);
-         gpio_put(IN2, 1);
-         gpio_put(IN3, 0);
          gpio_put(IN4, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 1);
+         gpio_put(IN1, 0);
          break;
 
       case 6:
-         gpio_put(IN1, 1);
-         gpio_put(IN2, 1);
-         gpio_put(IN3, 0);
          gpio_put(IN4, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 1);
+         gpio_put(IN1, 1);
          break;
 
       case 7:
-         gpio_put(IN1, 1);
-         gpio_put(IN2, 0);
-         gpio_put(IN3, 0);
          gpio_put(IN4, 0);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 1);
          break;
 
       case 8:
-         gpio_put(IN1, 1);
-         gpio_put(IN2, 0);
-         gpio_put(IN3, 0);
          gpio_put(IN4, 1);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 1);
          break;
 
       default:
+         gpio_put(IN4, 1);
+         gpio_put(IN3, 0);
+         gpio_put(IN2, 0);
+         gpio_put(IN1, 1);
          break;
    }
 

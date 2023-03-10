@@ -51,6 +51,9 @@
  * 						  			  *
  ********************************/
 // GPIO pin setup GLOBAL VALUES
+
+// #define GPIO0 0
+
 #define SevenSegCC1 11
 #define SevenSegCC2 10
 
@@ -71,8 +74,8 @@
 // Stepper GPIO
 #define IN1 13
 #define IN2 12
-#define IN3 9
-#define IN4 8
+#define IN3 20
+#define IN4 6
 
 
 
