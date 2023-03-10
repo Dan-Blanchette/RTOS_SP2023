@@ -46,7 +46,7 @@ void task_buttons()
       button2 = gpio_get(BUTTON2);
       button3 = gpio_get(BUTTON3);
 
-      printf("button1/2/3 %d%d%d\n", button1, button2, button3);
+      // printf("button1/2/3 %d%d%d\n", button1, button2, button3);
       vTaskDelay(100 / portTICK_PERIOD_MS);
    }
 }
@@ -183,16 +183,24 @@ void task_humiditySensor()
 // stepper motor
 void task_stepper_run()
 {
-   int steps = 1;
+   //int steps = 1;
    while (1)
    {
-      if (steps < 9)
+
+      // CCW stepper
+      for (int j = 1; j < 9; j++)
       {
-         stepper(steps);
-         steps = ((steps + 1) % 9);
-         // printf("steps: %d\n", steps);
+         stepper(j);
          vTaskDelay(10 / portTICK_PERIOD_MS);
       }
+
+      // // CW Stepper
+      // for (int i = 8; i > 0; i--)
+      // {
+      //    printf("step: %d\n", i);
+      //    stepper(i);
+      //    vTaskDelay(10 / portTICK_PERIOD_MS);
+      // }
    }
 }
 // blink pico
@@ -276,9 +284,9 @@ int main()
    // // Left 7Seg Task (USING SEMAPHORE)
    xTaskCreate(task_left_disp, "Task_Left_Disp", 256, NULL, 3, NULL);
    // // humidity sensor task
-   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 1, NULL);
+   xTaskCreate(task_humiditySensor, "Task_HumiditySensor", 256, NULL, 0, NULL);
    // // Buttons Task
-   // xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 4, NULL);
+   xTaskCreate(task_buttons, "Task_Buttons", 256, NULL, 1, NULL);
    // // Counter for 7SEG Display
    xTaskCreate(task_count, "Task_Count", 256, NULL, 2, NULL);
    // xTaskCreate(task_pico_blink, "Task_Pico_Blink", 256, NULL, 2, NULL);
